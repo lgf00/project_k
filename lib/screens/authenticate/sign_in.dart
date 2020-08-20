@@ -10,6 +10,8 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  final AuthService _auth = AuthService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,10 +37,13 @@ class _SignInState extends State<SignIn> {
 
   Widget _signInButton() {
     return RaisedButton(
-      onPressed: () {
-        signInWithGoogle().whenComplete(() {
+      onPressed: () async {
+        dynamic result = await _auth.signInWithGoogle();
+        if (result != null) {
           Navigator.of(context).pushReplacement(FadeRoute(page: Home()));
-        });
+        } else {
+          print('sign in failed');
+        }
       },
       color: Colors.white,
       child: Padding(

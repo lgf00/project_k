@@ -4,6 +4,8 @@ import 'package:project_k/screens/authenticate/sign_in.dart';
 import 'package:project_k/shared/FadeRoute.dart';
 
 class Home extends StatelessWidget {
+  final AuthService _auth = AuthService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -11,9 +13,9 @@ class Home extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(displayName),
-            Text(email),
-            Text(uid),
+            // Text(displayName),
+            // Text(email),
+            // Text(uid),
             _signOutButton(context)
           ],
         ),
@@ -23,8 +25,8 @@ class Home extends StatelessWidget {
 
   Widget _signOutButton(context) {
     return RaisedButton(
-      onPressed: () {
-        signOutGoogle();
+      onPressed: () async {
+        await _auth.signOutGoogle();
         Navigator.of(context).pushAndRemoveUntil(
             FadeRoute(page: SignIn()), ModalRoute.withName('/'));
       },
