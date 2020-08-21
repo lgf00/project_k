@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:intl/intl.dart';
 import 'package:project_k/model/user_model.dart';
+import 'package:project_k/services/database.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -32,6 +34,14 @@ class AuthService {
       final UserCredential authResult =
           await _auth.signInWithCredential(credential);
       final User user = authResult.user;
+      if (authResult.additionalUserInfo.isNewUser) {
+        await DatabaseService(uid: user.uid).updateUserData(
+            DateFormat('yy-MM-dd').format(DateTime.now()), [
+          "Add or remove TO-Do items",
+          "Create new journal entries",
+          "Pick a theme"
+        ]);
+      }
       // assert(user.displayName != null);
       // assert(user.email != null);
       // assert(user.uid != null);

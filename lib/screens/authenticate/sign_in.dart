@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project_k/screens/authenticate/auth.dart';
+import 'package:project_k/services/auth.dart';
 import 'package:project_k/screens/home/home.dart';
-import 'package:project_k/shared/FadeRoute.dart';
+//import 'package:project_k/shared/FadeRoute.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -40,7 +40,9 @@ class _SignInState extends State<SignIn> {
       onPressed: () async {
         dynamic result = await _auth.signInWithGoogle();
         if (result != null) {
-          Navigator.of(context).pushReplacement(FadeRoute(page: Home()));
+          //Navigator.of(context).pushReplacement(FadeRoute(page: Home(result)));
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (BuildContext context) => Home(result)));
         } else {
           print('sign in failed');
         }
